@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>krPano</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/pano.js"></script>
+    <script src="js/index.js"></script>
+</head>
+<body>
+    <div id="pano"></div>
+    <ul class="ctrl-btn">
+        <li onclick="fullScreen()">全屏</li>
+        <li onclick="startRotate()">开始旋转</li>
+        <li onclick="stopRotate()">停止旋转</li>
+        <li onclick="showVrState()">旋转状态</li>
+        <li onclick="timeOut()">停止转动x秒</li>
+        <li onclick="pauseRotate()">暂停旋转</li>
+        <li onclick="restoreRotate()">恢复自动旋转</li>
+    </ul>
+    <div class="fps" id="fps">
+
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    embedpano({xml: "xml/pano.xml", target: "pano", html5: 'only'})
+</script>

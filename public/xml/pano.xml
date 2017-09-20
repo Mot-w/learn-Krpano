@@ -1,0 +1,28 @@
+﻿<krpano>
+
+	<plugin name="gyro" devices="html5"
+			url="%SWFPATH%/xml/gyro2.js"
+			enabled="true"
+	/>
+	<!-- the skin -->
+	<!--<include url="skin/defaultskin.xml" />-->
+	
+	<!-- view settings -->
+	<view hlookat="0" vlookat="0" maxpixelzoom="1.0" fovmax="150" limitview="auto" />
+	
+
+	<preview url="10000.tiles/preview.jpg" />
+
+	<image type="CUBE" multires="true" tilesize="512">
+		<level tiledimagewidth="3200" tiledimageheight="3200">
+			<cube url="10000.tiles/%s/l3/%v/l3_%s_%v_%h.jpg" />
+		</level>
+		<level tiledimagewidth="1536" tiledimageheight="1536">
+			<cube url="10000.tiles/%s/l2/%v/l2_%s_%v_%h.jpg" />
+		</level>
+		<level tiledimagewidth="768" tiledimageheight="768">
+			<cube url="10000.tiles/%s/l1/%v/l1_%s_%v_%h.jpg" />
+		</level>
+	</image>
+
+</krpano>

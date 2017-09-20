@@ -1,0 +1,49 @@
+html, body {
+    width: 100%;
+    height:100%;
+    overflow: hidden;
+    margin: 0px;
+    padding: 0px;
+}
+ul, li {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+#pano {
+    width: 100%;
+    height:100%;
+}
+
+/*按钮样式*/
+.ctrl-btn {
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 60px;
+    background-color: rgba(0,0,0, .5);
+}
+.ctrl-btn li {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 30px;
+    background-color: yellowgreen;
+    text-align: center;
+    font: 12px/30px 'microsoft yahei';
+    cursor: pointer;
+}
+.fps {
+    position: absolute;
+    top: 80px;
+    left: 0px;
+    width: 100px;
+    height: 100px;
+    background-color: rgba(0,0,0, .8);
+    font: 16px/100px 'microsoft yahei';
+    color: yellowgreen;
+    text-align: center;
+}
