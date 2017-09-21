@@ -24,9 +24,20 @@ window.onload = function () {
         console.log('旋转停止')
     });
 
+    //当视角发生变化时的事件
     krpano.set('events.onviewchanged', function () {
         var fpsDom = document.getElementById('fps');
         fpsDom.innerHTML = krpano.get('display.currentfps').toFixed(1);
+
+        var vlookat = krpano.get('view.vlookat');   //Y
+        var hlookat = krpano.get('view.hlookat');   //X
+        var fov = krpano.get('view.fov');   //Z
+        console.log('vlookat:' + vlookat + '-- hlookat:'+hlookat+'-- fov:' + fov)
+        
+        //判断旋转2圈的时候停止旋转
+        if (hlookat >= 720) {
+            stopRotate();
+        }
     });
 
     //定义停止旋转的事件，默认有'userviewchange|layers|keyboard'， 设置''则不允许通过点击等事件停止旋转
@@ -39,6 +50,16 @@ window.onload = function () {
     //旋转停止时触发的时间
     krpano.set('events.onautorotatestop', function() {
         console.log('旋转停止')
+    })
+
+    //当xml文件场景加载完成后的事件
+    krpano.set('events.onxmlcomplete', function () {
+        //alert('场景加载完成，执行下面操作请点击确定')
+    })
+
+    //发生在加载完成之后，图片渲染完成后执行的事件
+    krpano.set('events.onloadcomplete', function () {
+        //alert('图片渲染完成，执行下面操作')
     })
 
 
@@ -63,7 +84,7 @@ function startRotate() {
     krpano.set('autorotate.accel', '1.5');
 
     //设置旋转的最大速度（负值为顺时针旋转）
-    krpano.set('autorotate.speed', '-10');
+    krpano.set('autorotate.speed', '100');
 
     //开启旋转后先位于给定的值，然后在旋转，如果给定的为off或非数字的值，则会禁用它
     krpano.set('autorotate.horizon', '0.0');
