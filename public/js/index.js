@@ -32,7 +32,7 @@ window.onload = function () {
         var vlookat = krpano.get('view.vlookat');   //Y
         var hlookat = krpano.get('view.hlookat');   //X
         var fov = krpano.get('view.fov');   //Z
-        console.log('vlookat:' + vlookat + '-- hlookat:'+hlookat+'-- fov:' + fov)
+        //console.log('vlookat:' + vlookat + '-- hlookat:'+hlookat+'-- fov:' + fov)
         
         //判断旋转2圈的时候停止旋转
         if (hlookat >= 720) {
@@ -60,6 +60,16 @@ window.onload = function () {
     //发生在加载完成之后，图片渲染完成后执行的事件
     krpano.set('events.onloadcomplete', function () {
         //alert('图片渲染完成，执行下面操作')
+    })
+
+    krpano.set('events.onnewpano', function () {
+        alert('进入新场景')
+    })
+    krpano.set('events.onremovepano', function () {
+        alert('离开当前场景')
+    })
+    krpano.set('events.onnewscene', function() {
+        alert('新场景')
     })
 
 
@@ -121,4 +131,9 @@ function pauseRotate() {
 //恢复自动旋转
 function restoreRotate() {
     krpano.call('autorotate.resume()')
+}
+
+//切换场景
+function loadPano() {
+    krpano.call('loadpano(01JiangSuDaJuYuan.xml)')
 }
