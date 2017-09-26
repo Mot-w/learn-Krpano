@@ -6,7 +6,14 @@ var krpano;
 window.onload = function () {
     //获取krpano DOM节点
     krpano = document.getElementById('krpanoSWFObject');
+     
+    PanoEvents();
 
+    showDebugger();
+};
+
+//krpnao 的注册事件
+function PanoEvents() {
     //开始自动旋转之前，最后一次交互之后的等待时间（默认时间为1.5s）
     //krpano.set('autorotate.waittime', '0');
 
@@ -63,18 +70,16 @@ window.onload = function () {
     })
 
     krpano.set('events.onnewpano', function () {
-        alert('进入新场景')
+        console.log('进入新场景');
+        asteroid();
     })
     krpano.set('events.onremovepano', function () {
-        alert('离开当前场景')
+        console.log('离开当前场景')
     })
     krpano.set('events.onnewscene', function() {
-        alert('新场景')
+        console.log('新场景')
     })
-
-
-    showDebugger();
-};
+}
 
 //debugger
 function showDebugger() {
@@ -136,4 +141,18 @@ function restoreRotate() {
 //切换场景
 function loadPano() {
     krpano.call('loadpano(01JiangSuDaJuYuan.xml)')
+}
+
+//小行星开场
+function asteroid() {
+    krpano.set("view.fisheye", 1.0);    //球体的弯曲程度
+    krpano.set("view.fovmax", 150);     //相机距离物体的最大距离
+    krpano.set("view.fov", 150);        //相机距离物体的距离
+    krpano.set("view.hlookat", 180);    //水平视角的旋转角度
+    krpano.set("view.vlookat", 90);     //垂直视角的旋转角度
+    
+    krpano.call('delayedcall('+ 0 +', tween(view.fov, 20, 3);delayedcall()');
+    krpano.set("autorotate.speed", 50);
+    krpano.set("autorotate.horizon", 5);
+    //krpano.call("autorotate.start()");
 }
