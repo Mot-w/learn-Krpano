@@ -9,16 +9,17 @@ window.onload = function () {
      
     PanoEvents();
 
-    showDebugger();
+    //showDebugger();
+
+    //开始自动旋转之前，最后一次交互之后的等待时间（默认时间为1.5s）
+    krpano.set('autorotate.waittime', '0');
+
+    //开启自动旋转, 默认值为false不开启
+    //krpano.set('autorotate.enabled', true);
 };
 
 //krpnao 的注册事件
 function PanoEvents() {
-    //开始自动旋转之前，最后一次交互之后的等待时间（默认时间为1.5s）
-    //krpano.set('autorotate.waittime', '0');
-
-    //开启自动旋转, 默认值为false不开启
-    //krpano.set('autorotate.enabled', true);
 
     //旋转一圈调用的时间
     krpano.set('events.onautorotateoneround', function () {
@@ -72,6 +73,10 @@ function PanoEvents() {
     krpano.set('events.onnewpano', function () {
         console.log('进入新场景');
         asteroid();
+        console.log('hlookat:'+krpano.get('view.hlookat'));
+        console.log('vlookat:'+krpano.get('view.vlookat'));
+        console.log('fov:'+krpano.get('view.fov'));
+        console.log('fisheye:'+krpano.get('view.fisheye'));
     })
     krpano.set('events.onremovepano', function () {
         console.log('离开当前场景')
@@ -96,13 +101,13 @@ function startRotate() {
     krpano.call('autorotate.start()');
 
     //开启旋转后的加速度，默认为1s，加速至最大速度
-    krpano.set('autorotate.accel', '1.5');
+    //krpano.set('autorotate.accel', '1.5');
 
     //设置旋转的最大速度（负值为顺时针旋转）
-    krpano.set('autorotate.speed', '100');
+    krpano.set('autorotate.speed', '-10');
 
     //开启旋转后先位于给定的值，然后在旋转，如果给定的为off或非数字的值，则会禁用它
-    krpano.set('autorotate.horizon', '0.0');
+    //krpano.set('autorotate.horizon', '0.0');
 
     //缩放到给定的视野后再旋转
     //krpano.set('autorotate.tofov', '0');
@@ -151,8 +156,84 @@ function asteroid() {
     krpano.set("view.hlookat", 180);    //水平视角的旋转角度
     krpano.set("view.vlookat", 90);     //垂直视角的旋转角度
     
-    krpano.call('delayedcall('+ 0 +', tween(view.fov, 20, 3);delayedcall()');
-    krpano.set("autorotate.speed", 50);
-    krpano.set("autorotate.horizon", 5);
-    //krpano.call("autorotate.start()");
+    krpano.call('tween(view.hlookat, 0, 10);tween(view.vlookat, 0, 10);tween(view.fov, 90, 10);tween(view.fisheye, 0, 10)');
+    //startRotate();
 }
+
+
+//添加热点
+function addHotSport() {
+    stopRotate();
+    if(!$('.text-hot').hasClass('open')) {
+        $('.text-hot').css('display', 'block').addClass('open');
+    } else {
+        return false;
+    }
+}
+
+$(function () {
+    $('#closeAdd').click(function () {
+        if($('.text-hot').hasClass('open')) {
+            $('.text-hot').css('display', 'none').removeClass('open');
+        }
+    })
+
+
+    (function () {
+        var dragging = false;
+        var boxX, boxY, mouseX, mouseY, offsetX, offsetY;
+      
+        var box = document.getElementById('text-hot-flag');
+      
+        box.onmousedown = down;
+        document.onmousemove = move;
+        document.onmouseup = up;
+      
+        function down(e) {
+          dragging = true;
+          boxX = box.offsetLeft;
+          boxY = box.offsetTop;
+          mouseX = parseInt(getMouseXY(e).x);
+          mouseY = parseInt(getMouseXY(e).y);
+          offsetX = mouseX - boxX;
+          offsetY = mouseY - boxY;
+        }
+      
+        function move(e) {
+          if (dragging) {
+            var x = getMouseXY(e).x - offsetX;
+            var y = getMouseXY(e).y - offsetY;
+            var width = document.documentElement.clientWidth - box.offsetWidth;
+            var height = document.documentElement.clientHeight - box.offsetHeight;
+      
+            x = Math.min(Math.max(0, x), width);
+            y = Math.min(Math.max(0, y), height);
+      
+            box.style.left = x + 'px';
+            box.style.top = y + 'px';
+          }
+        }
+      
+        function up(e) {
+          dragging = false;
+        }
+      
+        function getMouseXY(e) {
+          var x = 0, y = 0;
+          e = e || window.event;
+          if (e.pageX) {
+            x = e.pageX;
+            y = e.pageY;
+          } else {
+            x = e.clientX + document.body.scrollLeft - document.body.clientLeft;
+            y = e.clientY + document.body.scrollTop - document.body.clientTop;
+          }
+          return {
+            x: x,
+            y: y
+          };
+        }
+      })()
+})
+
+
