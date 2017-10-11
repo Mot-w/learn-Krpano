@@ -31,36 +31,68 @@
 <script type="text/javascript">
     window.onload = function () {
         var drag = false;
-        var offsetX;    //元素相对文档区域左边的位置
-        var offsetY;    //元素相对文档区域上边的位置
+        var elementX;    //元素相对文档区域左边的位置
+        var elementY;    //元素相对文档区域上边的位置
+        var mouseX;     //鼠标横坐标
+        var mouseY;     //鼠标纵坐标
+        var differenceX //鼠标到元素左边的横向距离
+        var differenceY //鼠标到元素上边的纵向距离
+        var clientWidth = $(document).width();    //文档区域的宽度
+        var clientHeight = $(document).height();  //文档区域的高度
+        var width = $('#box').width();      //元素的宽度
+        var height = $('#box').height();    //元素的高度
+
 
         $('#box').mousedown(function (event) {
-            
             drag = true;
+            elementX = $(this).offset().left;
+            elementY = $(this).offset().top;
+            mouseX = event.clientX;
+            mouseY = event.clientY;
+            differenceX = mouseX - elementX;
+            differenceY = mouseY - elementY;
         })
 
-        $(document).mousemove(function (event) {
-            var clientX = event.clientX;    //鼠标相对浏览器文档区域的横坐标
-            var clientY = event.clientY;    //鼠标相对浏览器文档区域的纵坐标
-
+        dragMove()
+        function dragMove() {
+            $(document).mousemove(function (event) {
             if (drag) {
-                offsetX = $('#box').offset().left;  
-                offsetY = $('#box').offset().top;   
-                //console.log('offsetX:'+offsetX+'--offsetY:'+offsetY+'--clientX:'+clientX+'--clientY:'+clientY)
+                mouseX = event.clientX;
+                mouseY = event.clientY;
 
-                var mouseX = clientX - offsetX;
-                var mouseY = clientY - offsetY;
-                var x = clientX - mouseX;
-                var y = clientY - mouseY;
+                elementX = $('#box').offset().left;
+                elementY = $('#box').offset().top;
 
-                console.log(x+'--'+ y)
+                console.log(elementX +'----'+ elementY)
+
+                var x = mouseX - differenceX;   //元素左上角距离文档区左边的距离
+                var y = mouseY - differenceY;   //元素左上角距离文档区上边的距离
+
+                if(x < 0) {
+                    x = 0;
+                } else if((x+width) > clientWidth) {
+                    x = clientWidth - width;
+                }
+
+                if(y < 0) {
+                    y = 0;
+                } else if((y+height) > clientHeight) {
+                    y = clientHeight - height;
+                }
+
                 $('#box').css({'left': x, 'top': y});
             }
             
         })
+        }
 
         $('#box').mouseup(function () {
             drag = false;
+            console.log(elementX + '------' + elementY)
         })
+
+        window.onresize = function () {
+            console.log(clientWidth)
+        }
     }
 </script>
